@@ -1,35 +1,47 @@
-import re
-from datetime import datetime
+from pyspark.sql import functions as F, SparkSession
+from pyspark.sql.types import StructType, StructField, StringType, MapType, ArrayType
 
+spark = SparkSession.builder.appName("MigracaoMAIS").getOrCreate()
 
+# Exemplo de DataFrame com a estrutura inicial
+data = [
+    ("Folder1", "2023-09-01", {"user1": [{"group": "groupA", "access_level": "read"}, {"group": "groupB", "access_level": "write"}]}),
+    ("Folder2", "2023-09-02", {"user2": [{"group": "groupC", "access_level": "read"}]})
+]
 
-current_server = r'\\sbcdf103\arquivos\SECRE\Sucon'
-current_date = '28/05/2024 12:36'
+schema = StructType([
+    StructField("Folder", StringType(), True),
+    StructField("Date", StringType(), True),
+    StructField("Users", MapType(StringType(), ArrayType(StructType([
+        StructField("group", StringType(), True),
+        StructField("access_level", StringType(), True)
+    ]))))
+])
 
+df = spark.createDataFrame(data, schema)
 
-def teste (rodada):
-    user1 = {"Guilherme": [{'group': 'GC-SECRE-SUCON(RX)', 'access_level': 5}]}
-    user2 = {"Guilherme": [{'group': 'GC-SECRE-SUCON-MASTER(F)', 'access_level': 6}]}
-    user3 = {"Marcos": [{'group': 'GC-SECRE-SUCON-MASTER(F)', 'access_level': 6}]}
-    if rodada == 1:
-        return user1
-    if rodada == 2:
-        return user2
-    if rodada == 3:
-        return user3
-    
+# Explode os dicionários para registros separados
+df = df.select(
+    "Folder",
+    "Date",
+    F.explode("Users").alias("User", "GroupsAccess")  # Explode o dicionário 'Users' em 'User' e 'GroupsAccess'
+)
 
-users_data = {}
-for i in range(1,4):
-    user = teste(i)
-    for chave, lista in user.items():
-        if chave in users_data:
-            users_data[chave].extend(lista)
-        else:
-            users_data[chave] = lista
+# Explode a lista de grupos e acessos em registros separados
+df = df.select(
+    "Folder",
+    "Date",
+    "User",
+    F.explode("GroupsAccess").alias("GroupAccess")  # Explode a lista dentro de cada usuário
+)
 
+# Seleciona as colunas finais com 'group' e 'access_level'
+df_final = df.select(
+    "Folder",
+    "Date",
+    "User",
+    F.col("GroupAccess.group").alias("Group"),
+    F.col("GroupAccess.access_level").alias("AccessLevel")
+)
 
-server_data = {'Server': current_server,
-                   'Date': current_date,
-                   'Users': users_data}
-print(server_data)
+df_final.show(truncate=False)
