@@ -67,7 +67,7 @@ Se estiver utilizando autenticação integrada ou autenticação do Windows no S
 
 Exemplo de caminho para o `.dll`:
 ```bash
-C:\jdbc\auth\x86\mssql-jdbc_auth-12.8.1.x86.dll
+C:\jdbc\auth\x64\mssql-jdbc_auth-12.8.1.x64.dll
 ```
 
 ---
