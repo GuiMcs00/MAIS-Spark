@@ -37,7 +37,7 @@ C:\Program Files\Java\jdk-11
 Defina a variável de ambiente `PYSPARK_PYTHON` para garantir que o PySpark utilize a versão correta do Python.  
 Exemplo de caminho para o Python em um ambiente virtual:
 ```bash
-C:\Users\seu_usuário\envs\projeto\Scripts\python.exe
+C:\Users\seu_usuário\envs\projeto\Python\Python310\python.exe
 ```
 
 ---
@@ -102,5 +102,3 @@ No seu projeto:
 - **PySpark:** 3.5.2 (já configurado no ambiente virtual Poetry)
 
 ---
-
-Essa separação facilita o uso dependendo do banco de dados que você está utilizando (SQL Server ou PostgreSQL).
