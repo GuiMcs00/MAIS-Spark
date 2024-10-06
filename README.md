@@ -29,7 +29,7 @@ Caso o JDK 11 ainda não esteja instalado, é necessário baixá-lo e configurá
 Configure a variável de ambiente `JAVA_HOME` para apontar para o diretório de instalação do JDK 11.  
 Exemplo de caminho para Windows:
 ```bash
-C:\Program Files\Java\jdk-11
+caminho\para\Java\jdk-11
 ```
 
 ### 3. Configurar a variável de ambiente `PYSPARK_PYTHON`
@@ -37,7 +37,7 @@ C:\Program Files\Java\jdk-11
 Defina a variável de ambiente `PYSPARK_PYTHON` para garantir que o PySpark utilize a versão correta do Python.  
 Exemplo de caminho para o Python em um ambiente virtual:
 ```bash
-C:\Users\seu_usuário\envs\projeto\Python\Python310\python.exe
+caminho\para\Python\Python310\python.exe
 ```
 
 ---
