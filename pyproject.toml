@@ -7,11 +7,14 @@ readme = "README.md"
 packages = [
     {include = "src", from = "."},
     {include = "info", from = "src"},
+    {include = "handlers", from = "src"},
+    {include = "Tests", from = "src"},
 ]
 
 [tool.poetry.dependencies]
 python = "^3.10"
 pyspark = "3.5.2"
+pytest = "^8.3.3"
 
 
 [build-system]

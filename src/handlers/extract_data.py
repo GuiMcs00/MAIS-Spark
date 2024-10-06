@@ -120,7 +120,7 @@ def process_lines(lines):
 
 
 def read_task(spark):
-    pasta_info = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'info')
+    pasta_info = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'info')
     s103 = 'USUARIOSxPASTA103.txt'
     s103Teste = 'TESTE103.txt'
     s207 = 'USUARIOSxPASTA207.txt'
